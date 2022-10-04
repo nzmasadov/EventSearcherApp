@@ -1,0 +1,8 @@
+project("EventSearcher.xcodeproj")
+device("iPhone 14 Pro")
+
+clean(true)
+
+skip_build(false)
+ 
+code_coverage(true)
