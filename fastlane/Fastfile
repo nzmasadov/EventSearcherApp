@@ -32,7 +32,7 @@ platform :ios do
       build_directory: "./DerivedData",
       output_directory: "./reports",
       scheme: "EventSearcher",
-      proj: "EventSearc her.xcodeproj",
+      proj: "EventSearcher.xcodeproj",
       sonarqube_xml: true,
       github: true,
       arch: "x86_64"
