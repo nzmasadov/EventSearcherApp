@@ -72,10 +72,6 @@ class EventsChildCell: UICollectionViewCell {
         fatalError()
     }
     
-    @objc func addFavorite() {
-        
-    }
-    
     private func setupUI() {
         clipsToBounds = true
         layer.cornerRadius = 16
