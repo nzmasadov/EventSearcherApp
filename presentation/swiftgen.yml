@@ -1,0 +1,16 @@
+input_dir: ./
+output_dir: ./Generated/
+
+xcassets:
+  inputs: 
+  - Media.xcassets
+  outputs: 
+    templateName: swift5
+    output: Images+Generated.swift
+
+fonts:
+  inputs:
+  - PoppinsFont/
+  outputs:
+    templateName: swift5
+    output: Font+Generated.swift
