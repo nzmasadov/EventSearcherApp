@@ -8,12 +8,16 @@
 import UIKit
 import Lottie
 import domain
+import RxSwift
+import RxCocoa
 
 public class SearchViewController: BaseViewController<FirstViewModel>, UISearchBarDelegate {
     
     // MARK: Variables
     var isNotFound:Bool = false
     var allEvents: InitialEvents?
+    
+    var disposeBag = DisposeBag()
         
     // MARK: UI Components
     private lazy var searchBar: UISearchBar = {
@@ -61,7 +65,17 @@ public class SearchViewController: BaseViewController<FirstViewModel>, UISearchB
         collectionView.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "SearchHeader")
         
         setupUI()
-    }
+        
+        searchBar.rx.text.orEmpty.debounce(RxTimeInterval.seconds(Int(0.5)), scheduler: MainScheduler.instance).distinctUntilChanged().filter({!$0.isEmpty}).subscribe { [unowned self] searchElement in
+            let trimmedText = searchElement.filter({ !$0.isWhitespace})
+            AppLoader.instance.showLoaderView()
+            self.vm?.getSearchedEvents(with: trimmedText).then({ initialEvents in
+                AppLoader.instance.hideLoaderView()
+                self.allEvents = initialEvents
+                self.collectionView.reloadData()
+            })
+        }.disposed(by: disposeBag)
+    }    
     
     private func setupUI() {
         collectionView.snp.makeConstraints { make in
@@ -70,29 +84,6 @@ public class SearchViewController: BaseViewController<FirstViewModel>, UISearchB
             make.left.equalTo(self.view.safeAreaLayoutGuide.snp.left)
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
-        
-        
-    }
-    
-//    public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-//        let second = searchText.filter({ !$0.isWhitespace})
-//
-//        print(second)
-//        vm?.getSearchedEvents(with: searchText).then({ events in
-//            self.allEvents = events
-////            self.collectionView.reloadData()
-//        })
-//    }
-    
-    public func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        AppLoader.instance.showLoaderView()
-        let trimmedText = searchBar.searchTextField.text?.filter({ !$0.isWhitespace})
-        vm?.getSearchedEvents(with: trimmedText ?? "").then({ [weak self] events in
-            guard let self else {return}
-            AppLoader.instance.hideLoaderView()
-            self.allEvents = events
-            self.collectionView.reloadData()
-        })
     }
 }
 
