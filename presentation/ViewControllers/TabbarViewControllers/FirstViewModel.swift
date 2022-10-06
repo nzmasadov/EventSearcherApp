@@ -33,8 +33,8 @@ public class FirstViewModel {
         return self.observeEventsUseCase.execute()
     }
     
-    func syncEvents() {
-        self.syncEventsUseCase.execute()
+    func syncEvents() -> Promise<Data> {
+        return self.syncEventsUseCase.execute()
     }
     
     func getEvent(with id: String) -> Promise<EventResponse> {

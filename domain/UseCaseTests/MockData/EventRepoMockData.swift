@@ -16,6 +16,7 @@ class EventRepoMockData: EventRepoProtocol {
     
     // nzm delete then
     var observeEventValue = PublishSubject<InitialEvents>.init()
+    var syncEvent = Promise<Data>.pending()
     
     func getEvent(with id: String) -> Promise<EventResponse> {
         return getEvent
