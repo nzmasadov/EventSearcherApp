@@ -66,9 +66,8 @@ class DetailTopView: UIView {
         eventNameLbl.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(20)
             make.top.equalToSuperview()
-            make.right.equalTo(eventTypeView.snp.left).offset(-10)
+            make.right.equalToSuperview().offset(-70)
         }
-        
         
         eventTypeView.snp.makeConstraints { make in
             make.right.equalToSuperview().offset(-10)

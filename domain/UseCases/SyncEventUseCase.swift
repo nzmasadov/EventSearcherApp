@@ -9,7 +9,7 @@ import Foundation
 import Promises
 
 public class SyncEventUseCase {
-  
+   
     private let repo: EventRepoProtocol    
     init(repo: EventRepoProtocol) {
         self.repo = repo
